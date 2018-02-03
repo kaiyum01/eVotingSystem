@@ -1,0 +1,25 @@
+<div class="container"> 	  											
+	<?php
+	
+	include("database_connect/connect.php");
+$sql_system="Select persmission_to_vote from system_setting where id=1";
+$result_system=mysql_query($sql_system);
+while ($data_system=mysql_fetch_array($result_system))
+{
+
+if($data_system[0]==1)
+{
+echo '<h4 style="text-align:center;padding-top:5px;padding-bottom:5px;background-color:#0D9B49;color:#ffffff;">'.'You have to select your candidate to give vote '.'</h4>';
+	include("new_can_datatable_give_vote.php");
+}
+else 
+{
+echo '<p style="text-align:center; color:#F73A50;">'.' Please wait for getting candidate list to give vote after permission by election commission !'.'</p>';
+
+}        		 
+
+ //echo $data[3]; 
+ //echo $data[2]; 
+ }
+ 	?>	
+</div>

@@ -1,0 +1,70 @@
+There are at least three ways to backup your MySQL Database :
+
+ 
+
+Execute a database backup query from PHP file.
+Run mysqldump using system() function.
+Use phpMyAdmin to do the backup.
+ 
+
+Execute a database backup query from PHP file
+
+Below is an example of using SELECT INTO OUTFILE query for creating table backup :
+
+ 
+
+<?php
+include 'config.php';
+include 'opendb.php';
+
+$tableName  = 'mypet';
+$backupFile = 'backup/mypet.sql';
+$query      = "SELECT * INTO OUTFILE '$backupFile' FROM $tableName";
+$result = mysql_query($query);
+
+
+include 'closedb.php';
+?>
+To restore the backup you just need to run LOAD DATA INFILE query like this :
+
+ 
+
+<?php
+include 'config.php';
+include 'opendb.php';
+
+$tableName  = 'mypet';
+$backupFile = 'mypet.sql';
+$query      = "LOAD DATA INFILE 'backupFile' INTO TABLE $tableName";
+$result = mysql_query($query);
+
+
+include 'closedb.php';
+?>
+It's a good idea to name the backup file as tablename.sql so you'll know from which table the backup file is
+
+
+Run mysqldump using system() function
+
+The system() function is used to execute an external program. Because MySQL already have built in tool for creating MySQL database backup (mysqldump) let's use it from our PHP script
+
+ 
+
+<?php
+include 'config.php';
+include 'opendb.php';
+
+$backupFile = $dbname . date("Y-m-d-H-i-s") . '.gz';
+$command = "mysqldump --opt -h $dbhost -u $dbuser -p $dbpass $dbname | gzip > $backupFile";
+system($command);
+
+include 'closedb.php';
+?>
+
+Use phpMyAdmin to do the backup
+
+This option as you may guessed doesn't involve any programming on your part. However I think i mention it anyway so you know more options to backup your database.
+
+To backup your MySQL database using phpMyAdmin click on the "export" link on phpMyAdmin main page. Choose the database you wish to backup, check the appropriate SQL options and enter the name for the backup file.
+
+<style type="text/css"> .style1 { width: 615px; } .style2 { text-align: right; width: 85px; } </style>
