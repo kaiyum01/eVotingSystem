@@ -1,6 +1,6 @@
 <?php
 
-$host="abdulkaiyum.com";
+$host="localhost";
 $user="userName";
 $pass="passWord";
 $db="DBname";
